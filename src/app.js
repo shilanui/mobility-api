@@ -1,12 +1,9 @@
 require("dotenv").config();
-import express, { Request, Response } from "express";
-import cors from "cors";
-import morgan from "morgan";
+const express = require("express");
+const cors = require("cors");
+const morgan = require("morgan");
 
-// const notFoundMiddleware = require("./middlewares/not-found");
-// const errorMiddleware = require("./middlewares/error");
-// const rateLimitMiddleware = require("./middlewares/rate-limit");
-import userRoute from "./routes/user-route";
+const userRoute = require("./routes/user-route");
 // const productRoute = require("./routes/product-route");
 
 const app = express();

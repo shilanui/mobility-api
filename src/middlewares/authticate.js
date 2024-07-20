@@ -3,7 +3,7 @@
 // const prisma = require("../models/prisma");
 import { Request, Response, NextFunction } from "express";
 
-module.exports = async (req: Request, res: Response, next: NextFunction) => {
+module.exports = async (req, res, next) => {
   try {
     // const authorization = req.headers.authorization;
     // if (!authorization || !authorization.startsWith("Bearer ")) {
