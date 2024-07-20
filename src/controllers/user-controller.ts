@@ -1,6 +1,11 @@
+import { Request, Response, NextFunction } from "express";
 const prisma = require("../models/prisma");
 
-exports.getAll = async (req, res, next) => {
+export const getAll = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     // const { params } = req;
     // console.log("req =", req.params.id);
@@ -22,7 +27,11 @@ exports.getAll = async (req, res, next) => {
   }
 };
 
-exports.getUserById = async (req, res, next) => {
+export const getUserById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     // const { params } = req;
     // console.log("req =", req.params.id);

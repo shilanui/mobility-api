@@ -6,7 +6,7 @@ const morgan = require("morgan");
 // const notFoundMiddleware = require("./middlewares/not-found");
 // const errorMiddleware = require("./middlewares/error");
 // const rateLimitMiddleware = require("./middlewares/rate-limit");
-const userRoute = require("./routes/user-route");
+import userRoute from "./routes/user-route";
 // const productRoute = require("./routes/product-route");
 
 // const authRoute = require("./routes/auth-route");
