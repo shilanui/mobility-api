@@ -3,12 +3,12 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/app",
-  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/app.ts",
     "start": "node dist/app.js",
-    "build": "rm -rf node_modules && npm i && prisma generate",
+    "build": "rm -rf node_modules && npm i && prisma generate && tsc",
+    "tsc": "tsc",
     "serve": "node dist/app.js"
   },
   "author": "",
