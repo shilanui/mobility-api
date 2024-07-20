@@ -1,8 +1,9 @@
 // const createError = require("../utils/create-error");
-const jwt = require("jsonwebtoken");
-const prisma = require("../models/prisma");
+// const jwt = require("jsonwebtoken");
+// const prisma = require("../models/prisma");
+import { Request, Response, NextFunction } from "express";
 
-module.exports = async (req, res, next) => {
+module.exports = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // const authorization = req.headers.authorization;
     // if (!authorization || !authorization.startsWith("Bearer ")) {
@@ -22,7 +23,7 @@ module.exports = async (req, res, next) => {
     //   return next(createError("unauthenticated", 401));
     // }
     // delete user.password;
-    // req.user = user;
+    // req.user = user;Fjsonwebtoken
     next();
   } catch (err) {
     // if (err.name === "TokenExpiredError" || err.name === "JsonWebTokenError") {
