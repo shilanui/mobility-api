@@ -1,3 +1,4 @@
+// @ts-check
 import express, { Router } from "express";
 import { getAll, getUserById } from "../controllers";
 const authenticateMiddleware = require("../middlewares/authticate");
