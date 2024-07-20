@@ -7,8 +7,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon src/app.ts",
-    "start": "node ./src/app.ts",
-    "build": "rm -rf node_modules && npm i && prisma generate",
+    "start": "node dist/app.js",
+    "build": "rm -rf node_modules && rm -rf dist && npm i && prisma generate && tsc",
     "serve": "node dist/app.js"
   },
   "author": "",
