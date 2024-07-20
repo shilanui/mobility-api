@@ -7,6 +7,7 @@ export const getAll = async (
   next: NextFunction
 ) => {
   try {
+    console.log("getAll");
     // const { params } = req;
     // console.log("req =", req.params.id);
 
@@ -33,6 +34,7 @@ export const getUserById = async (
   next: NextFunction
 ) => {
   try {
+    console.log("getUserById");
     // const { params } = req;
     // console.log("req =", req.params.id);
 
