@@ -9,9 +9,6 @@
     "start": "nodemon src/app.ts",
     "build": "tsc"
   },
-  "prisma": {
-    "seed": "node prisma/seed.js"
-  },
   "author": "",
   "license": "ISC",
   "dependencies": {
