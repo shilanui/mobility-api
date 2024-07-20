@@ -7,7 +7,7 @@ const {
   makeStrictEnum,
   Public,
   getRuntime,
-} = require('@prisma/client/runtime/index-browser.js')
+} = require('./runtime/index-browser.js')
 
 
 const Prisma = {}

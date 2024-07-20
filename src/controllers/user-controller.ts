@@ -1,6 +1,12 @@
-const prisma = require("../models/prisma");
+// const prisma = require("../models/prisma");
+import { Request, Response, NextFunction } from "express";
+import prisma from "../models/prisma";
 
-exports.getAll = async (req, res, next) => {
+export const getAll = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     console.log("getAll");
     // const { params } = req;
@@ -23,7 +29,11 @@ exports.getAll = async (req, res, next) => {
   }
 };
 
-exports.getUserById = async (req, res, next) => {
+export const getUserById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     console.log("getUserById");
     // const { params } = req;
