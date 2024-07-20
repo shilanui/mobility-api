@@ -1,8 +1,8 @@
-// @ts-check
-import express, { Router } from "express";
+// import express, { Router } from "express";
+import * as express from "express";
 import { getAll, getUserById } from "../controllers";
 const authenticateMiddleware = require("../middlewares/authticate");
-const router: Router = express.Router();
+const router = express.Router();
 
 router.use("/", getAll);
 router.use("/:id", authenticateMiddleware, getUserById);
