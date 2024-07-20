@@ -9,7 +9,7 @@
     "dev": "nodemon src/app.ts",
     "start": "ts-node src/app.ts",
     "build": "tsc --project ./tsconfig.json",
-    "serve": "node dist/index.js"
+    "serve": "node dist/app.js"
   },
   "author": "",
   "license": "ISC",

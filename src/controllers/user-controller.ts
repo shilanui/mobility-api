@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-const prisma = require("../models/prisma");
+import prisma from "../models/prisma";
 
 export const getAll = async (
   req: Request,
