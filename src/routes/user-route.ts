@@ -1,5 +1,5 @@
 // import express, { Router } from "express";
-import * as express from "express";
+import express = require("express");
 import { getAll, getUserById } from "../controllers";
 const authenticateMiddleware = require("../middlewares/authticate");
 const router = express.Router();
