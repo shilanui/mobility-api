@@ -1,0 +1,12 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id Int [pk, increment]
+  password String [not null]
+  firstName String [not null]
+  lastName String [not null]
+  email String [unique, not null]
+  mobile String [unique, not null]
+}
