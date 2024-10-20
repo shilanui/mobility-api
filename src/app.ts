@@ -4,6 +4,7 @@ import cors from "cors";
 import morgan from "morgan";
 
 import userRoute from "./routes/user-route";
+import roleRoute from "./routes/role-route";
 // const productRoute = require("./routes/product-route");
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 app.use("/user", userRoute);
+app.use("/role", roleRoute);
 
 const PORT = process.env.PORT || "5000";
 app.listen(PORT, () => console.log(`server running on port: ${PORT}`));

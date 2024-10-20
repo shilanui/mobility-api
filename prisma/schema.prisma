@@ -8,9 +8,16 @@ generator dbml {
     provider = "prisma-dbml-generator"
 }
 
+// datasource db {
+    // provider = "sqlserver"
+    // url      = env("DATABASE_URL")
+// }
+
 datasource db {
-    provider = "sqlserver"
-    url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url  	    = env("PG_DATABASE_URL")
+  // uncomment next line if you use Prisma <5.10
+  // directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 model User {
@@ -20,6 +27,11 @@ model User {
     lastName  String
     email     String   @unique
     mobile    String   @unique
+}
+
+model Role {
+    role_id          Int      @id @default(autoincrement())
+    role_name        String
 }
 
 

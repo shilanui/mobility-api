@@ -10,3 +10,8 @@ Table User {
   email String [unique, not null]
   mobile String [unique, not null]
 }
+
+Table Role {
+  role_id Int [pk, increment]
+  role_name String [not null]
+}
