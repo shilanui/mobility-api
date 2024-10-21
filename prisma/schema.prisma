@@ -21,17 +21,62 @@ datasource db {
 }
 
 model User {
-    id        Int      @id @default(autoincrement())
-    password  String
-    firstName String
-    lastName  String
-    email     String   @unique
-    mobile    String   @unique
+    id              Int      @id @default(autoincrement())
+
+    role_id         Int      @unique
+    role            Role   @relation(fields: [role_id], references: [id])
+
+    package_id      Int      @unique
+    package         Package   @relation(fields: [package_id], references: [id])
+
+    status_id       Int      @unique
+    status          Status    @relation(fields: [status_id], references: [id])
+
+    agency_id       Int      @unique
+    agency          Agency    @relation(fields: [agency_id], references: [id])
+
+    tax_id_no       Int
+    username        String
+    password        String
+    first_name      String
+    last_name       String
+    birth_date      DateTime
+    phone_number    String 
+    email           String   @unique
+    created_at      DateTime
+    updated_at      DateTime
 }
 
 model Role {
-    role_id          Int      @id @default(autoincrement())
-    role_name        String
+    id              Int      @id @default(autoincrement())
+    role_name       String
+    users           User[]   
+}
+
+model Package {
+    id              Int      @id @default(autoincrement())
+    package_name    String
+    user            User[] 
+}
+
+model Status {
+    id              Int      @id @default(autoincrement())
+    status_name       String
+    user            User[]  
+}
+
+model Agency {
+    id              Int      @id @default(autoincrement())
+    agency_id       String   @unique
+    agency_name     String
+    tax_id_no       String
+    phone_number    String 
+    address         String
+    province        String
+    district        String
+    postcode        Int
+    
+    user            User[]  
 }
 
 

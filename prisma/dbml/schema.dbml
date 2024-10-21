@@ -4,14 +4,61 @@
 
 Table User {
   id Int [pk, increment]
+  role_id Int [unique, not null]
+  role Role [not null]
+  package_id Int [unique, not null]
+  package Package [not null]
+  status_id Int [unique, not null]
+  status Status [not null]
+  agency_id Int [unique, not null]
+  agency Agency [not null]
+  tax_id_no Int [not null]
+  username String [not null]
   password String [not null]
-  firstName String [not null]
-  lastName String [not null]
+  first_name String [not null]
+  last_name String [not null]
+  birth_date DateTime [not null]
+  phone_number String [not null]
   email String [unique, not null]
-  mobile String [unique, not null]
+  created_at DateTime [not null]
+  updated_at DateTime [not null]
 }
 
 Table Role {
-  role_id Int [pk, increment]
+  id Int [pk, increment]
   role_name String [not null]
+  users User [not null]
 }
+
+Table Package {
+  id Int [pk, increment]
+  package_name String [not null]
+  user User [not null]
+}
+
+Table Status {
+  id Int [pk, increment]
+  status_name String [not null]
+  user User [not null]
+}
+
+Table Agency {
+  id Int [pk, increment]
+  agency_id String [unique, not null]
+  agency_name String [not null]
+  tax_id_no String [not null]
+  phone_number String [not null]
+  address String [not null]
+  province String [not null]
+  district String [not null]
+  postcode Int [not null]
+  user User [not null]
+}
+
+Ref: User.role_id > Role.id
+
+Ref: User.package_id > Package.id
+
+Ref: User.status_id > Status.id
+
+Ref: User.agency_id > Agency.id
