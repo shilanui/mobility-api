@@ -1,5 +1,5 @@
-import { Request, Response, NextFunction } from "express";
-import prisma from "../models/prisma";
+import { Request, Response, NextFunction } from 'express';
+import prisma from '../models/prisma';
 
 export const getAll = async (
   req: Request,
@@ -7,7 +7,7 @@ export const getAll = async (
   next: NextFunction
 ) => {
   try {
-    console.log("getAll");
+    console.log('getAll');
     // const { params } = req;
     // console.log("req =", req.params.id);
 
@@ -35,7 +35,7 @@ export const getRoleById = async (
   next: NextFunction
 ) => {
   try {
-    console.log("req =", req.params);
+    console.log('req =', req.params);
     const id = req?.params?.id;
     // const { params } = req;
     // console.log("req =", req.params.id);
@@ -44,7 +44,7 @@ export const getRoleById = async (
 
     let role = await prisma.role.findMany({
       where: {
-        role_id: Number(id),
+        id: Number(id),
       },
     });
 
