@@ -23,7 +23,6 @@ export const getAll = async (
     let role = await prisma.role.findMany();
 
     res.status(201).json({ role });
-    // res.status(201).json({ user });
   } catch (err) {
     next(err);
   }
