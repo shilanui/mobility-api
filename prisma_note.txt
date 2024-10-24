@@ -12,4 +12,10 @@
 ----
 
 5. Update database schema
-- prisma migrate dev
+- npx prisma migrate dev
+
+
+
+เวลา Update schema ใหม่
+- npx prisma generate
+- npx prisma migrate dev

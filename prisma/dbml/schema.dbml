@@ -4,15 +4,15 @@
 
 Table User {
   id Int [pk, increment]
-  role_id Int [unique, not null]
-  role Role [not null]
-  package_id Int [unique, not null]
-  package Package [not null]
-  status_id Int [unique, not null]
-  status Status [not null]
-  agency_id Int [unique, not null]
-  agency Agency [not null]
-  tax_id_no Int [not null]
+  role_id Int
+  role Role
+  package_id Int
+  package Package
+  status_id Int
+  status Status
+  agency_id Int
+  agency Agency
+  tax_id_no String [not null]
   username String [not null]
   password String [not null]
   first_name String [not null]
@@ -20,14 +20,28 @@ Table User {
   birth_date DateTime [not null]
   phone_number String [not null]
   email String [unique, not null]
-  created_at DateTime [not null]
-  updated_at DateTime [not null]
+  created_at DateTime [default: `now()`]
+  updated_at DateTime
+  property Property [not null]
+  favourite Favourite [not null]
+  user_agent User_Agent [not null]
+  user_role User_Role [not null]
+  notification Notification [not null]
+}
+
+Table User_Role {
+  id Int [pk, increment]
+  role_id Int [not null]
+  role Role
+  user_id Int [not null]
+  user User
 }
 
 Table Role {
   id Int [pk, increment]
   role_name String [not null]
   users User [not null]
+  user_role User_Role [not null]
 }
 
 Table Package {
@@ -40,6 +54,7 @@ Table Status {
   id Int [pk, increment]
   status_name String [not null]
   user User [not null]
+  property Property [not null]
 }
 
 Table Agency {
@@ -53,6 +68,105 @@ Table Agency {
   district String [not null]
   postcode Int [not null]
   user User [not null]
+  user_agent User_Agent [not null]
+  notification Notification [not null]
+}
+
+Table User_Agent {
+  id Int [pk, increment]
+  user_id Int [not null]
+  user User
+  agency_id Int [not null]
+  agency Agency
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+}
+
+Table Notification {
+  id Int [pk, increment]
+  property_id Int
+  user_id Int
+  user User
+  agency_id Int
+  agency Agency
+  message String [not null]
+  is_read Boolean [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+}
+
+Table Favourite {
+  id Int [pk, increment]
+  user_id Int [not null]
+  user User
+  is_favourite Boolean [not null]
+  buyer_id Int [not null]
+  property_id Int [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+}
+
+Table Property_Type {
+  property_type_id Int [pk, increment]
+  property_type String [not null]
+}
+
+Table Property {
+  id Int [pk, increment]
+  title_deed_id Int [not null]
+  status_id Int [not null]
+  status Status
+  property_type_id Int [not null]
+  seller_id Int [not null]
+  user User
+  unit_id Int [not null]
+  units Units
+  property_name String [not null]
+  description String [not null]
+  price Int [not null]
+  latitude Float [not null]
+  longitude Float [not null]
+  land_area_rai Decimal [not null]
+  land_area_ngan Decimal [not null]
+  land_area_square_wa Decimal [not null]
+  usable_size_square_m Decimal [not null]
+  bedroom Int
+  bathroom Int
+  kitchen Int
+  floors Int
+  view_count Int
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+}
+
+Table Units {
+  id Int [pk, increment]
+  unit_name String [not null]
+  unit_type String [not null]
+  conversion_factor Decimal [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+  property Property [not null]
+}
+
+Table Appointment {
+  id Int [pk, increment]
+  app_status String [not null]
+  app_date DateTime [not null]
+  start_time DateTime [not null]
+  end_time DateTime [not null]
+  location String [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
+}
+
+Table User_Appointment {
+  id Int [pk, increment]
+  appointment_id Int [not null]
+  buyer_id Int [not null]
+  seller_id Int [not null]
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime [not null]
 }
 
 Ref: User.role_id > Role.id
@@ -62,3 +176,23 @@ Ref: User.package_id > Package.id
 Ref: User.status_id > Status.id
 
 Ref: User.agency_id > Agency.id
+
+Ref: User_Role.role_id > Role.id
+
+Ref: User_Role.user_id > User.id
+
+Ref: User_Agent.user_id > User.id
+
+Ref: User_Agent.agency_id > Agency.id
+
+Ref: Notification.user_id > User.id
+
+Ref: Notification.agency_id > Agency.id
+
+Ref: Favourite.user_id > User.id
+
+Ref: Property.status_id > Status.id
+
+Ref: Property.seller_id > User.id
+
+Ref: Property.unit_id > Units.id

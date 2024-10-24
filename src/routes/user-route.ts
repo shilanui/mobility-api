@@ -1,11 +1,16 @@
-import express, { Router } from "express";
-// const express = require("express");
-import { getAll, getUserById } from "../controllers/user-controller";
-// const userController = require("../controllers/user-controller");
-// const authenticateMiddleware = require("../middlewares/authticate");
+import express, { Router } from 'express';
+import {
+  createUser,
+  getAll,
+  getUserById,
+  updateUser,
+} from '../controllers/user-controller';
 const router: Router = express.Router();
 
-router.get("/", getAll);
-router.get("/:id", getUserById);
+router.get('/', getAll);
+router.get('/:id', getUserById);
+router.post('/create', createUser);
+router.put('/update/:id', updateUser);
+router.post('/delete/:id', createUser);
 
 export default router;
