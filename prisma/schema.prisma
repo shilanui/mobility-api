@@ -23,98 +23,73 @@ datasource db {
 model User {
     id              Int      @id @default(autoincrement())
 
-    role_id         Int?      
-    role            Role?   @relation(fields: [role_id], references: [id])
-
     package_id      Int?      
     package         Package?   @relation(fields: [package_id], references: [id])
 
     status_id       Int?      
     status          Status?    @relation(fields: [status_id], references: [id])
 
-    agency_id       Int?      
-    agency          Agency?    @relation(fields: [agency_id], references: [id])
-
     tax_id_no       String
     username        String
     password        String
     first_name      String
     last_name       String
-    birth_date      DateTime    
-    phone_number    String 
-    email           String   @unique
+    birth_date      DateTime?    
+    phone_number    String? 
+    email           String      @unique
+    agency_name     String?
+    agency_address  String?
+    agency_tax_id_no    String?
+    agency_phone_num    String?
     created_at      DateTime?    @default(now())
     updated_at      DateTime? 
 
-    property        Property[] 
-    favourite       Favourite[] 
-    user_agent      User_Agent[] 
-    user_role       User_Role[]  
     notification    Notification[]  
-}
-
-model User_Role {
-    id              Int      @id @default(autoincrement())
-    role_id         Int      
-    role            Role?   @relation(fields: [role_id], references: [id]) 
-    user_id         Int      
-    user            User?    @relation(fields: [user_id], references: [id])
+    appointment     Appointment[]  
+    favourite       Favourite[]  
+    property_post   Property_Post[]  
 }
 
 model Role {
     id              Int      @id @default(autoincrement())
-    role_name       String
-    users           User[]   
-    user_role       User_Role[]   
+    role_name       String   @unique
+    description     String?
 }
 
 model Package {
     id              Int      @id @default(autoincrement())
+
+    unit_id         Int?
+    unit            Unit?    @relation(fields: [unit_id], references: [id])
+
     package_name    String
+    description     String?
+    price           Int?
+    start_time      DateTime?
+    end_time        DateTime?
+    created_at      DateTime    @default(now())
+    updated_at      DateTime?
+
     user            User[] 
 }
 
 model Status {
     id              Int      @id @default(autoincrement())
-    status_name     String
+    status_name     String   @unique
+    description     String?
+
     user            User[]  
-    property            Property[]  
-}
-
-model Agency {
-    id              Int      @id @default(autoincrement())
-    agency_id       String   @unique
-    agency_name     String
-    tax_id_no       String
-    phone_number    String 
-    address         String
-    province        String
-    district        String
-    postcode        Int
-    
-    user            User[]  
-    user_agent      User_Agent[]  
-    notification    Notification[]  
-}
-
-model User_Agent {
-    id              Int      @id @default(autoincrement())
-    user_id         Int      
-    user            User?    @relation(fields: [user_id], references: [id])
-    agency_id       Int      
-    agency          Agency?    @relation(fields: [agency_id], references: [id])  
-
-    created_at      DateTime    @default(now())
-    updated_at      DateTime
+    property_post   Property_Post[]  
 }
 
 model Notification {
     id              Int      @id @default(autoincrement())
-    property_id     Int?
+
+    property_id     Int 
+    property_post   Property_Post?    @relation(fields: [property_id], references: [id])
+
     user_id         Int?      
-    user            User?    @relation(fields: [user_id], references: [id])
-    agency_id       Int?      
-    agency          Agency?    @relation(fields: [agency_id], references: [id])   
+    user            User?    @relation(fields: [user_id], references: [id]) 
     message         String
     is_read         Boolean
     created_at      DateTime         @default(now())
@@ -122,71 +97,104 @@ model Notification {
 }
 
 model Favourite {
-    id              Int      @id @default(autoincrement())
+    id              Int                 @id @default(autoincrement())
     user_id         Int      
-    user            User?    @relation(fields: [user_id], references: [id]) 
+    user            User?               @relation(fields: [user_id], references: [id]) 
+
+    property_id     Int 
+    property_post   Property_Post?      @relation(fields: [property_id], references: [id])
 
     is_favourite    Boolean
-    buyer_id        Int 
-    property_id     Int 
-    created_at      DateTime         @default(now())
+    created_at      DateTime            @default(now())
     updated_at      DateTime
+
 }
 
 model Property_Type {
     property_type_id        Int      @id @default(autoincrement())
     property_type           String
+
+    property_post           Property_Post[]
 }
 
-model Property {
+model Land_Type {
     id                      Int      @id @default(autoincrement())
+    land_type               String
+    description             String?
+
+    title_deed              Title_Deed[]
+}
+
+model Property_Post {
+    id                      Int      @id @default(autoincrement())
+    user_id                 Int?
+    user                    User?    @relation(fields: [user_id], references: [id])
+
     title_deed_id           Int
+    title_deed              Title_Deed?    @relation(fields: [title_deed_id], references: [title_deed_id])
 
     status_id               Int
     status                  Status?    @relation(fields: [status_id], references: [id])
 
-    property_type_id        Int
-
-    seller_id               Int
-    user                    User?    @relation(fields: [seller_id], references: [id]) 
-
-
     unit_id                 Int
-    units                   Units?    @relation(fields: [unit_id], references: [id])
+    unit                    Unit?    @relation(fields: [unit_id], references: [id])
 
-    property_name           String
-    description             String
-    price                   Int
-    latitude                Float
-    longitude               Float
-    land_area_rai           Decimal @db.Decimal(10,2)
-    land_area_ngan          Decimal @db.Decimal(10,2)
-    land_area_square_wa     Decimal @db.Decimal(10,2)
-    usable_size_square_m    Decimal @db.Decimal(10,2)
-    bedroom                 Int?
-    bathroom                Int?
-    kitchen                 Int?
-    floors                  Int?
+    geographies_id          Int
+    geographies             Geographies?    @relation(fields: [geographies_id], references: [id])
+
+    province_id             Int
+    province                Province?    @relation(fields: [province_id], references: [id])
+
+    amphure_id              Int
+    amphure                 Amphure?    @relation(fields: [amphure_id], references: [id])
+
+    sub_district_id         Int
+    sub_district            Sub_District?    @relation(fields: [sub_district_id], references: [id])
+
+    property_type_id        Int
+    property_type           Property_Type?    @relation(fields: [property_type_id], references: [property_type_id])
+
+    property_name           String?
+    description             String?
+    price                   Int?
+    latitude                Float?
+    longitude               Float?
+    land_area_rai           Decimal? @db.Decimal(10,2)
+    land_area_ngan          Decimal? @db.Decimal(10,2)
+    land_area_square_wa     Decimal? @db.Decimal(10,2)
+    usable_size_square_m    Decimal? @db.Decimal(10,2)
+    bedroom_count           Int?
+    bathroom_count          Int?
+    kitchen_count           Int?
+    floors_count            Int?
     view_count              Int?
     created_at              DateTime    @default(now())     
     updated_at              DateTime
+
+    favourite               Favourite[]
+    notification            Notification[]
+    
 }
 
-model Units {
-    id                  Int      @id @default(autoincrement())
+model Unit {
+    id                  Int         @id @default(autoincrement())
     unit_name           String
     unit_type           String
-    conversion_factor   Decimal @db.Decimal(10,2)
+    conversion_factor   Decimal     @db.Decimal(10,2)
     created_at          DateTime    @default(now())     
     updated_at          DateTime
 
-    property            Property[]
+    property_post       Property_Post[]
+    title_deed          Title_Deed[]
+    package             Package[]
 }
 
 model Appointment {
     id                  Int      @id @default(autoincrement())
+    user_id             Int      
+    user                User?    @relation(fields: [user_id], references: [id]) 
+
     app_status          String
-    app_date            DateTime
     start_time          DateTime
     end_time            DateTime
     location            String
@@ -194,14 +202,79 @@ model Appointment {
     updated_at          DateTime
 }
 
-model User_Appointment {
+model Geographies {
     id                  Int      @id @default(autoincrement())
-    appointment_id      Int
-    buyer_id            Int
-    seller_id           Int
-    created_at          DateTime    @default(now())     
-    updated_at          DateTime
+    geo_name            String
+
+    province            Province[]
+    property_post       Property_Post[]
 }
+
+model Province {
+    id                  Int      @id @default(autoincrement())
+    geographies_id      Int      
+    geographies         Geographies?    @relation(fields: [geographies_id], references: [id])
+    code                String
+    name_th             String
+    name_en             String 
+
+    amphure             Amphure[]
+    property_post       Property_Post[]
+}
+
+model Amphure {
+    id                  Int      @id @default(autoincrement())
+    province_id         Int      
+    province            Province?    @relation(fields: [province_id], references: [id])
+    code                String
+    name_th             String
+    name_en             String 
+
+    sub_district        Sub_District[]
+    property_post       Property_Post[]
+}
+
+model Sub_District {
+    id                  Int      @id @default(autoincrement())
+    amphure_id          Int      
+    amphure             Amphure?    @relation(fields: [amphure_id], references: [id])
+    zip_code            String
+    name_th             String
+    name_en             String 
+
+    property_post       Property_Post[]
+}
+
+model Title_Deed {
+    title_deed_id                   Int      @id @default(autoincrement())
+
+    unit_id                         Int      
+    unit                            Unit?    @relation(fields: [unit_id], references: [id])
+
+    land_type_id                    Int      
+    land_type                       Land_Type?    @relation(fields: [land_type_id], references: [id])
+
+    title_deed_no                   String
+    issue_date                      DateTime
+    land_officer                    String?
+    map_street                      String?
+    parcel_no                       String?
+    sub_district_no                 String?
+    sub_district_name               String?
+    volume                          String?
+    package                         String?
+    unit_no                         String?
+    floor_no                        String?
+    condo_no                        String?
+    condo_title                     String?
+    condo_regist_no                 String?
+    owner_name_1                    String?
+    owner_name_2                    String?
+    owner_name_3                    String?
+
+    property_post                   Property_Post[]
+}
+
 
 
 

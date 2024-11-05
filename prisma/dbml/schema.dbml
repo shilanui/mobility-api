@@ -4,91 +4,64 @@
 
 Table User {
   id Int [pk, increment]
-  role_id Int
-  role Role
   package_id Int
   package Package
   status_id Int
   status Status
-  agency_id Int
-  agency Agency
   tax_id_no String [not null]
   username String [not null]
   password String [not null]
   first_name String [not null]
   last_name String [not null]
-  birth_date DateTime [not null]
-  phone_number String [not null]
+  birth_date DateTime
+  phone_number String
   email String [unique, not null]
+  agency_name String
+  agency_address String
+  agency_tax_id_no String
+  agency_phone_num String
   created_at DateTime [default: `now()`]
   updated_at DateTime
-  property Property [not null]
-  favourite Favourite [not null]
-  user_agent User_Agent [not null]
-  user_role User_Role [not null]
   notification Notification [not null]
-}
-
-Table User_Role {
-  id Int [pk, increment]
-  role_id Int [not null]
-  role Role
-  user_id Int [not null]
-  user User
+  appointment Appointment [not null]
+  favourite Favourite [not null]
+  property_post Property_Post [not null]
 }
 
 Table Role {
   id Int [pk, increment]
-  role_name String [not null]
-  users User [not null]
-  user_role User_Role [not null]
+  role_name String [unique, not null]
+  description String
 }
 
 Table Package {
   id Int [pk, increment]
+  unit_id Int
+  unit Unit
   package_name String [not null]
+  description String
+  price Int
+  start_time DateTime
+  end_time DateTime
+  created_at DateTime [default: `now()`, not null]
+  updated_at DateTime
   user User [not null]
 }
 
 Table Status {
   id Int [pk, increment]
-  status_name String [not null]
+  status_name String [unique, not null]
+  description String
   user User [not null]
-  property Property [not null]
-}
-
-Table Agency {
-  id Int [pk, increment]
-  agency_id String [unique, not null]
-  agency_name String [not null]
-  tax_id_no String [not null]
-  phone_number String [not null]
-  address String [not null]
-  province String [not null]
-  district String [not null]
-  postcode Int [not null]
-  user User [not null]
-  user_agent User_Agent [not null]
-  notification Notification [not null]
-}
-
-Table User_Agent {
-  id Int [pk, increment]
-  user_id Int [not null]
-  user User
-  agency_id Int [not null]
-  agency Agency
-  created_at DateTime [default: `now()`, not null]
-  updated_at DateTime [not null]
+  property_post Property_Post [not null]
 }
 
 Table Notification {
   id Int [pk, increment]
-  property_id Int
+  property_id Int [not null]
+  property_post Property_Post
   user_id Int
   user User
-  agency_id Int
-  agency Agency
   message String [not null]
   is_read Boolean [not null]
   created_at DateTime [default: `now()`, not null]
@@ -99,9 +72,9 @@ Table Favourite {
   id Int [pk, increment]
   user_id Int [not null]
   user User
-  is_favourite Boolean [not null]
-  buyer_id Int [not null]
   property_id Int [not null]
+  property_post Property_Post
+  is_favourite Boolean [not null]
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
 }
@@ -109,50 +82,73 @@ Table Favourite {
 Table Property_Type {
   property_type_id Int [pk, increment]
   property_type String [not null]
+  property_post Property_Post [not null]
 }
 
-Table Property {
+Table Land_Type {
   id Int [pk, increment]
+  land_type String [not null]
+  description String
+  title_deed Title_Deed [not null]
+}
+
+Table Property_Post {
+  id Int [pk, increment]
+  user_id Int
+  user User
   title_deed_id Int [not null]
+  title_deed Title_Deed
   status_id Int [not null]
   status Status
-  property_type_id Int [not null]
-  seller_id Int [not null]
-  user User
   unit_id Int [not null]
-  units Units
-  property_name String [not null]
-  description String [not null]
-  price Int [not null]
-  latitude Float [not null]
-  longitude Float [not null]
-  land_area_rai Decimal [not null]
-  land_area_ngan Decimal [not null]
-  land_area_square_wa Decimal [not null]
-  usable_size_square_m Decimal [not null]
-  bedroom Int
-  bathroom Int
-  kitchen Int
-  floors Int
+  unit Unit
+  geographies_id Int [not null]
+  geographies Geographies
+  province_id Int [not null]
+  province Province
+  amphure_id Int [not null]
+  amphure Amphure
+  sub_district_id Int [not null]
+  sub_district Sub_District
+  property_type_id Int [not null]
+  property_type Property_Type
+  property_name String
+  description String
+  price Int
+  latitude Float
+  longitude Float
+  land_area_rai Decimal
+  land_area_ngan Decimal
+  land_area_square_wa Decimal
+  usable_size_square_m Decimal
+  bedroom_count Int
+  bathroom_count Int
+  kitchen_count Int
+  floors_count Int
   view_count Int
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
+  favourite Favourite [not null]
+  notification Notification [not null]
 }
 
-Table Units {
+Table Unit {
   id Int [pk, increment]
   unit_name String [not null]
   unit_type String [not null]
   conversion_factor Decimal [not null]
   created_at DateTime [default: `now()`, not null]
   updated_at DateTime [not null]
-  property Property [not null]
+  property_post Property_Post [not null]
+  title_deed Title_Deed [not null]
+  package Package [not null]
 }
 
 Table Appointment {
   id Int [pk, increment]
+  user_id Int [not null]
+  user User
   app_status String [not null]
-  app_date DateTime [not null]
   start_time DateTime [not null]
   end_time DateTime [not null]
   location String [not null]
@@ -160,39 +156,111 @@ Table Appointment {
   updated_at DateTime [not null]
 }
 
-Table User_Appointment {
+Table Geographies {
   id Int [pk, increment]
-  appointment_id Int [not null]
-  buyer_id Int [not null]
-  seller_id Int [not null]
-  created_at DateTime [default: `now()`, not null]
-  updated_at DateTime [not null]
+  geo_name String [not null]
+  province Province [not null]
+  property_post Property_Post [not null]
 }
 
-Ref: User.role_id > Role.id
+Table Province {
+  id Int [pk, increment]
+  geographies_id Int [not null]
+  geographies Geographies
+  code String [not null]
+  name_th String [not null]
+  name_en String [not null]
+  amphure Amphure [not null]
+  property_post Property_Post [not null]
+}
+
+Table Amphure {
+  id Int [pk, increment]
+  province_id Int [not null]
+  province Province
+  code String [not null]
+  name_th String [not null]
+  name_en String [not null]
+  sub_district Sub_District [not null]
+  property_post Property_Post [not null]
+}
+
+Table Sub_District {
+  id Int [pk, increment]
+  amphure_id Int [not null]
+  amphure Amphure
+  zip_code String [not null]
+  name_th String [not null]
+  name_en String [not null]
+  property_post Property_Post [not null]
+}
+
+Table Title_Deed {
+  title_deed_id Int [pk, increment]
+  unit_id Int [not null]
+  unit Unit
+  land_type_id Int [not null]
+  land_type Land_Type
+  title_deed_no String [not null]
+  issue_date DateTime [not null]
+  land_officer String
+  map_street String
+  parcel_no String
+  sub_district_no String
+  sub_district_name String
+  volume String
+  package String
+  unit_no String
+  floor_no String
+  condo_no String
+  condo_title String
+  condo_regist_no String
+  owner_name_1 String
+  owner_name_2 String
+  owner_name_3 String
+  property_post Property_Post [not null]
+}
 
 Ref: User.package_id > Package.id
 
 Ref: User.status_id > Status.id
 
-Ref: User.agency_id > Agency.id
+Ref: Package.unit_id > Unit.id
 
-Ref: User_Role.role_id > Role.id
-
-Ref: User_Role.user_id > User.id
-
-Ref: User_Agent.user_id > User.id
-
-Ref: User_Agent.agency_id > Agency.id
+Ref: Notification.property_id > Property_Post.id
 
 Ref: Notification.user_id > User.id
 
-Ref: Notification.agency_id > Agency.id
-
 Ref: Favourite.user_id > User.id
 
-Ref: Property.status_id > Status.id
+Ref: Favourite.property_id > Property_Post.id
 
-Ref: Property.seller_id > User.id
+Ref: Property_Post.user_id > User.id
 
-Ref: Property.unit_id > Units.id
+Ref: Property_Post.title_deed_id > Title_Deed.title_deed_id
+
+Ref: Property_Post.status_id > Status.id
+
+Ref: Property_Post.unit_id > Unit.id
+
+Ref: Property_Post.geographies_id > Geographies.id
+
+Ref: Property_Post.province_id > Province.id
+
+Ref: Property_Post.amphure_id > Amphure.id
+
+Ref: Property_Post.sub_district_id > Sub_District.id
+
+Ref: Property_Post.property_type_id > Property_Type.property_type_id
+
+Ref: Appointment.user_id > User.id
+
+Ref: Province.geographies_id > Geographies.id
+
+Ref: Amphure.province_id > Province.id
+
+Ref: Sub_District.amphure_id > Amphure.id
+
+Ref: Title_Deed.unit_id > Unit.id
+
+Ref: Title_Deed.land_type_id > Land_Type.id
