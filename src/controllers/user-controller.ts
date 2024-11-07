@@ -1,7 +1,7 @@
 // const prisma = require("../models/prisma");
-import { Request, Response, NextFunction } from 'express';
-import prisma from '../models/prisma';
-import moment from 'moment';
+import { Request, Response, NextFunction } from "express";
+import prisma from "../models/prisma";
+import moment from "moment";
 
 export const getAll = async (
   req: Request,
@@ -9,7 +9,7 @@ export const getAll = async (
   next: NextFunction
 ) => {
   try {
-    console.log('getAll');
+    console.log("getAll");
     // const { params } = req;
     // console.log("req =", req.params.id);
 
@@ -60,16 +60,15 @@ export const createUser = async (
 
     let user = await prisma.user.create({
       data: {
-        role_id: body?.role_id ?? null,
+        // role_id: body?.role_id ?? null,
         package_id: body?.package_id ?? null,
         status_id: body?.status_id ?? null,
-        agency_id: body?.agency_id ?? null,
         tax_id_no: body?.tax_id_no ?? null,
         username: body?.username ?? null,
         password: body?.password ?? null,
         first_name: body?.first_name ?? null,
         last_name: body?.last_name ?? null,
-        birth_date: body?.birth_date ? moment(body?.birth_date).format() : '', //'2024-10-10T00:00:00.000Z'
+        birth_date: body?.birth_date ? moment(body?.birth_date).format() : "", //'2024-10-10T00:00:00.000Z'
         phone_number: body?.phone_number ?? null,
         email: body?.email ?? null,
       },
@@ -96,7 +95,7 @@ export const updateUser = async (
         id: +userId,
       },
       data: {
-        agency_id: body?.agency_id ?? null,
+        // agency_id: body?.agency_id ?? null,
         // {...(agency_id ? body?.agency_id : null)}
       },
     });
