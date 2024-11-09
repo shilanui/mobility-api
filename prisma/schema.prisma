@@ -130,32 +130,33 @@ model Property_Post {
     user_id                 Int?
     user                    User?    @relation(fields: [user_id], references: [id])
 
-    title_deed_id           Int
+    title_deed_id           Int?
     title_deed              Title_Deed?    @relation(fields: [title_deed_id], references: [title_deed_id])
 
-    status_id               Int
+    status_id               Int?
     status                  Status?    @relation(fields: [status_id], references: [id])
 
-    unit_id                 Int
+    unit_id                 Int?
     unit                    Unit?    @relation(fields: [unit_id], references: [id])
 
-    geographies_id          Int
+    geographies_id          Int?
     geographies             Geographies?    @relation(fields: [geographies_id], references: [id])
 
-    province_id             Int
+    province_id             Int?
     province                Province?    @relation(fields: [province_id], references: [id])
 
-    amphure_id              Int
+    amphure_id              Int?
     amphure                 Amphure?    @relation(fields: [amphure_id], references: [id])
 
-    sub_district_id         Int
+    sub_district_id         Int?
     sub_district            Sub_District?    @relation(fields: [sub_district_id], references: [id])
 
-    property_type_id        Int
+    property_type_id        Int?
     property_type           Property_Type?    @relation(fields: [property_type_id], references: [property_type_id])
 
     property_name           String?
     description             String?
+    image                   String?
     price                   Int?
     latitude                Float?
     longitude               Float?

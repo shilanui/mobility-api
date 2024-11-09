@@ -96,24 +96,25 @@ Table Property_Post {
   id Int [pk, increment]
   user_id Int
   user User
-  title_deed_id Int [not null]
+  title_deed_id Int
   title_deed Title_Deed
-  status_id Int [not null]
+  status_id Int
   status Status
-  unit_id Int [not null]
+  unit_id Int
   unit Unit
-  geographies_id Int [not null]
+  geographies_id Int
   geographies Geographies
-  province_id Int [not null]
+  province_id Int
   province Province
-  amphure_id Int [not null]
+  amphure_id Int
   amphure Amphure
-  sub_district_id Int [not null]
+  sub_district_id Int
   sub_district Sub_District
-  property_type_id Int [not null]
+  property_type_id Int
   property_type Property_Type
   property_name String
   description String
+  image String
   price Int
   latitude Float
   longitude Float
