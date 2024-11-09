@@ -76,7 +76,9 @@ model Package {
 model Status {
     id              Int      @id @default(autoincrement())
     status_name     String   @unique
+    status_type     String?
     description     String?
+    
 
     user            User[]  
     property_post   Property_Post[]  

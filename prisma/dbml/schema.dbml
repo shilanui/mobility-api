@@ -51,6 +51,7 @@ Table Package {
 Table Status {
   id Int [pk, increment]
   status_name String [unique, not null]
+  status_type String
   description String
   user User [not null]
   property_post Property_Post [not null]

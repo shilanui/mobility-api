@@ -32,8 +32,6 @@ export const getPropertyPostByStatus = async (
       },
     });
 
-    console.log("getPropertyPostByStatus propertyPost = ", propertyPost);
-
     res.status(200).json({ propertyPost });
   } catch (err) {
     next(err);
@@ -68,18 +66,12 @@ export const addPropertyPost = async (
 ) => {
   try {
     const { body } = req;
-    console.log("req.file =", req?.file);
-
-    let image = null;
-    if (req.file) {
-      // image = await uploadImage(req.file.path);
-    }
 
     let propertyPost = await prisma.property_Post.create({
       data: {
-        user_id: null,
+        user_id: body?.userId,
         title_deed_id: null,
-        status_id: null,
+        status_id: 1,
         unit_id: null,
         geographies_id: null,
         province_id: null,
@@ -88,11 +80,11 @@ export const addPropertyPost = async (
         property_type_id: null,
         property_name: body?.name,
         description: body?.description,
-        image: null,
+        image: body?.imageUrl,
         // image,
         price: 1000,
-        latitude: null,
-        longitude: null,
+        latitude: +body?.latitude,
+        longitude: +body?.longitude,
         land_area_rai: null,
         land_area_ngan: null,
         land_area_square_wa: null,
