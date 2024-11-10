@@ -9,6 +9,7 @@ import authRoute from "./routes/auth-route";
 import notificationRoute from "./routes/notification-route";
 import propertyRoute from "./routes/property-route";
 import imageRoute from "./routes/image-route";
+import locationRoute from "./routes/location-route";
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use("/auth", authRoute);
 app.use("/notification", notificationRoute);
 app.use("/property", propertyRoute);
 app.use("/image", imageRoute);
+app.use("/location", locationRoute);
 
 const PORT = process.env.PORT || "5000";
 app.listen(PORT, () => console.log(`server running on port: ${PORT}`));

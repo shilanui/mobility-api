@@ -38,6 +38,27 @@ export const getPropertyPostByStatus = async (
   }
 };
 
+export const getPropertyPostById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { params } = req;
+    const id: any = params?.id;
+
+    let propertyPost = await prisma.property_Post.findFirst({
+      where: {
+        id: +id,
+      },
+    });
+
+    res.status(200).json({ propertyPost });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getPropertyPostByUserId = async (
   req: Request,
   res: Response,
@@ -81,8 +102,7 @@ export const addPropertyPost = async (
         property_name: body?.name,
         description: body?.description,
         image: body?.imageUrl,
-        // image,
-        price: 1000,
+        price: +body?.price,
         latitude: +body?.latitude,
         longitude: +body?.longitude,
         land_area_rai: null,
@@ -99,6 +119,29 @@ export const addPropertyPost = async (
     });
 
     res.status(200).json({ data: propertyPost });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const searchPropertyPostByName = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { body } = req;
+    const name: string = body?.name;
+
+    let propertyPost = await prisma.property_Post.findMany({
+      where: {
+        property_name: {
+          contains: name,
+        },
+      },
+    });
+
+    res.status(200).json({ propertyPost });
   } catch (err) {
     next(err);
   }
