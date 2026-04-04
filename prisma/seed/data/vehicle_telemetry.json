@@ -1,0 +1,122 @@
+[
+  {
+    "vehicle_id": "V001",
+    "source": "GPS_VENDOR",
+    "timestamp": "2026-03-01T12:17:41+07:00",
+    "lat": 13.72753,
+    "lon": 100.5406,
+    "speed_kmh": 0,
+    "heading_deg": 0,
+    "engine_on": true,
+    "odometer_km": 238056.855,
+    "driver_name": "สมชาย ใจดี"
+  },
+  {
+    "vehicle_id": "V002",
+    "source": "GPS_VENDOR",
+    "timestamp": "2026-03-01T12:18:05+07:00",
+    "lat": 13.7301,
+    "lon": 100.545,
+    "speed_kmh": 20,
+    "heading_deg": 45,
+    "engine_on": true,
+    "odometer_km": 120345.1,
+    "driver_name": "วิชัย สุขสันต์"
+  },
+  {
+    "vehicle_id": "V003",
+    "source": "GPS_VENDOR",
+    "timestamp": "2026-03-01T12:18:20+07:00",
+    "lat": 13.725,
+    "lon": 100.538,
+    "speed_kmh": 35,
+    "heading_deg": 90,
+    "engine_on": true,
+    "odometer_km": 54321.5,
+    "driver_name": "อรทัย พิพัฒน์"
+  },
+  {
+    "vehicle_id": "V001",
+    "source": "GPS_VENDOR",
+    "timestamp": "2026-03-01T12:18:40+07:00",
+    "lat": 13.7278,
+    "lon": 100.5412,
+    "speed_kmh": 50,
+    "heading_deg": 30,
+    "engine_on": true,
+    "odometer_km": 238056.92,
+    "driver_name": "สมชาย ใจดี"
+  },
+  {
+    "vehicle_id": "V002",
+    "source": "GPS_VENDOR",
+    "timestamp": "2026-03-01T12:19:10+07:00",
+    "lat": 13.731,
+    "lon": 100.5462,
+    "speed_kmh": 80,
+    "heading_deg": 60,
+    "engine_on": true,
+    "odometer_km": 120345.4,
+    "driver_name": "วิชัย สุขสันต์"
+  },
+  {
+    "vehicle_id": "V004",
+    "source": "GPS_VENDOR",
+    "timestamp": "2026-03-01T12:19:25+07:00",
+    "lat": 13.729,
+    "lon": 100.5425,
+    "speed_kmh": 130,
+    "heading_deg": 10,
+    "engine_on": true,
+    "odometer_km": 88888.2,
+    "driver_name": "กิตติพงษ์ แสงทอง"
+  },
+  {
+    "vehicle_id": "V003",
+    "source": "GPS_VENDOR",
+    "timestamp": "2026-03-01T12:19:50+07:00",
+    "lat": 13.7255,
+    "lon": 100.539,
+    "speed_kmh": 0,
+    "heading_deg": 100,
+    "engine_on": true,
+    "odometer_km": 54321.8,
+    "driver_name": "อรทัย พิพัฒน์"
+  },
+  {
+    "vehicle_id": "V001",
+    "source": "GPS_VENDOR",
+    "timestamp": "2026-03-01T12:20:15+07:00",
+    "lat": 13.7285,
+    "lon": 100.542,
+    "speed_kmh": 100,
+    "heading_deg": 75,
+    "engine_on": true,
+    "odometer_km": 238057.2,
+    "driver_name": "สมชาย ใจดี"
+  },
+  {
+    "vehicle_id": "V004",
+    "source": "GPS_VENDOR",
+    "timestamp": "2026-03-01T12:20:17+07:00",
+    "lat": 13.7295,
+    "lon": 100.543,
+    "speed_kmh": 40,
+    "heading_deg": 20,
+    "engine_on": true,
+    "odometer_km": 88888.5,
+    "driver_name": "กิตติพงษ์ แสงทอง"
+  },
+  {
+    "vehicle_id": "V002",
+    "source": "GPS_VENDOR",
+    "timestamp": "2026-03-01T12:21:10+07:00",
+    "lat": 13.732,
+    "lon": 100.5475,
+    "speed_kmh": 150,
+    "heading_deg": 80,
+    "engine_on": true,
+    "odometer_km": 120345.9,
+    "driver_name": "วิชัย สุขสันต์"
+  }
+]

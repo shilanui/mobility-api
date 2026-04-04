@@ -6,7 +6,7 @@ import { Request, Response, NextFunction } from "express";
 export const authticate = async (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   try {
     // const authorization = req.headers.authorization;
@@ -17,7 +17,6 @@ export const authticate = async (
     // const token = authorization.split(" ")[1];
     // const payload = jwt.verify(token, process.env.JWT_SECRET_KEY || "mnbvcxz");
 
-    // console.log("payload =", payload);
     // let user = await prisma.user.findFirst({
     //   where: {
     //     id: payload.userId,

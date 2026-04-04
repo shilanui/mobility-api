@@ -2,267 +2,147 @@
 //// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 //// ------------------------------------------------------
 
-Table User {
+Table vehicle {
   id Int [pk, increment]
-  package_id Int
-  package Package
-  status_id Int
-  status Status
-  tax_id_no String [not null]
-  username String [not null]
-  password String [not null]
-  first_name String [not null]
-  last_name String [not null]
-  birth_date DateTime
-  phone_number String
-  email String [unique, not null]
-  agency_name String
-  agency_address String
-  agency_tax_id_no String
-  agency_phone_num String
-  created_at DateTime [default: `now()`]
-  updated_at DateTime
-  notification Notification [not null]
-  appointment Appointment [not null]
-  favourite Favourite [not null]
-  property_post Property_Post [not null]
+  vehicle_name String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  telemetry vehicle_telemetry [not null]
+  can_signals can_signal [not null]
+  events vehicle_event [not null]
+  scores driver_score [not null]
+  unsafe_events unsafe_event [not null]
+  driver_vehicle driver_vehicle [not null]
 }
 
-Table Role {
+Table vehicle_telemetry {
   id Int [pk, increment]
-  role_name String [unique, not null]
-  description String
+  vehicle_id Int [not null]
+  source String
+  timestamp DateTime [not null]
+  lat Float
+  long Float
+  speed_kmh Float
+  heading_deg Float
+  engine_on Boolean
+  odometer_km Float
+  driver_id Int [not null]
+  vehicle vehicle [not null]
+  driver drivers [not null]
+  unsafe_event unsafe_event [not null]
 }
 
-Table Package {
+Table drivers {
   id Int [pk, increment]
-  unit_id Int
-  unit Unit
-  package_name String [not null]
-  description String
-  price Int
-  start_time DateTime
-  end_time DateTime
-  created_at DateTime [default: `now()`, not null]
-  updated_at DateTime
-  user User [not null]
+  driver_name String [unique, not null]
+  createdAt DateTime [default: `now()`, not null]
+  vehicle_telemetry vehicle_telemetry [not null]
+  driver_vehicle driver_vehicle [not null]
+  unsafe_event unsafe_event [not null]
 }
 
-Table Status {
+Table driver_vehicle {
   id Int [pk, increment]
-  status_name String [unique, not null]
-  status_type String
-  description String
-  user User [not null]
-  property_post Property_Post [not null]
+  vehicle_id Int [not null]
+  driver_id Int [not null]
+  start_at DateTime
+  end_at DateTime
+  vehicle vehicle [not null]
+  driver drivers [not null]
+
+  indexes {
+    (vehicle_id, driver_id) [unique]
+  }
 }
 
-Table Notification {
+Table can_signal {
   id Int [pk, increment]
-  property_id Int [not null]
-  property_post Property_Post
-  user_id Int
-  user User
-  message String [not null]
-  is_read Boolean [not null]
-  created_at DateTime [default: `now()`, not null]
-  updated_at DateTime [not null]
+  vehicle_id Int [not null]
+  timestamp DateTime [not null]
+  signal_name String [not null]
+  signal_value Float [not null]
+  signal_unit String
+  vehicle vehicle [not null]
 }
 
-Table Favourite {
+Table vehicle_event {
   id Int [pk, increment]
-  user_id Int [not null]
-  user User
-  property_id Int [not null]
-  property_post Property_Post
-  is_favourite Boolean [not null]
-  created_at DateTime [default: `now()`, not null]
-  updated_at DateTime [not null]
+  vehicle_id Int [not null]
+  event_id Int [not null]
+  timestamp DateTime [not null]
+  lat Float
+  long Float
+  speed_kmh Float
+  fuel_input_liters Float
+  total_distance_km Float
+  battery_voltage Float
+  vehicle vehicle [not null]
+  event event [not null]
 }
 
-Table Property_Type {
-  property_type_id Int [pk, increment]
-  property_type String [not null]
-  property_post Property_Post [not null]
-}
-
-Table Land_Type {
+Table unsafe_event {
   id Int [pk, increment]
-  land_type String [not null]
-  description String
-  title_deed Title_Deed [not null]
+  vehicle_id Int [not null]
+  driver_id Int
+  event_id Int [not null]
+  severity Severity [not null]
+  timestamp DateTime [not null]
+  value Float
+  threshold Float
+  telemetry_id Int
+  vehicle vehicle [not null]
+  event event [not null]
+  driver drivers
+  vehicle_telemetry vehicle_telemetry
 }
 
-Table Property_Post {
+Table event {
   id Int [pk, increment]
-  user_id Int
-  user User
-  title_deed_id Int
-  title_deed Title_Deed
-  status_id Int
-  status Status
-  unit_id Int
-  unit Unit
-  geographies_id Int
-  geographies Geographies
-  province_id Int
-  province Province
-  amphure_id Int
-  amphure Amphure
-  sub_district_id Int
-  sub_district Sub_District
-  property_type_id Int
-  property_type Property_Type
-  property_name String
-  description String
-  image String
-  price Int
-  latitude Float
-  longitude Float
-  land_area_rai Decimal
-  land_area_ngan Decimal
-  land_area_square_wa Decimal
-  usable_size_square_m Decimal
-  bedroom_count Int
-  bathroom_count Int
-  kitchen_count Int
-  floors_count Int
-  view_count Int
-  created_at DateTime [default: `now()`, not null]
-  updated_at DateTime [not null]
-  favourite Favourite [not null]
-  notification Notification [not null]
+  event_type Int [not null]
+  event_name String [not null]
+  unsafe_event unsafe_event [not null]
+  vehicle_event vehicle_event [not null]
 }
 
-Table Unit {
+Table driver_score {
   id Int [pk, increment]
-  unit_name String [not null]
-  unit_type String [not null]
-  conversion_factor Decimal [not null]
-  created_at DateTime [default: `now()`, not null]
-  updated_at DateTime [not null]
-  property_post Property_Post [not null]
-  title_deed Title_Deed [not null]
-  package Package [not null]
+  vehicle_id Int [not null]
+  score_date DateTime [not null]
+  final_score Float [not null]
+  speeding_score Float [not null]
+  braking_score Float [not null]
+  accel_score Float [not null]
+  idle_score Float [not null]
+  night_score Float [not null]
+  riskClass String [not null]
+  vehicle vehicle [not null]
 }
 
-Table Appointment {
-  id Int [pk, increment]
-  user_id Int [not null]
-  user User
-  app_status String [not null]
-  start_time DateTime [not null]
-  end_time DateTime [not null]
-  location String [not null]
-  created_at DateTime [default: `now()`, not null]
-  updated_at DateTime [not null]
+Enum Severity {
+  LOW
+  MEDIUM
+  HIGH
 }
 
-Table Geographies {
-  id Int [pk, increment]
-  geo_name String [not null]
-  province Province [not null]
-  property_post Property_Post [not null]
-}
+Ref: vehicle_telemetry.vehicle_id > vehicle.id
 
-Table Province {
-  id Int [pk, increment]
-  geographies_id Int [not null]
-  geographies Geographies
-  code String [not null]
-  name_th String [not null]
-  name_en String [not null]
-  amphure Amphure [not null]
-  property_post Property_Post [not null]
-}
+Ref: vehicle_telemetry.driver_id > drivers.id
 
-Table Amphure {
-  id Int [pk, increment]
-  province_id Int [not null]
-  province Province
-  code String [not null]
-  name_th String [not null]
-  name_en String [not null]
-  sub_district Sub_District [not null]
-  property_post Property_Post [not null]
-}
+Ref: driver_vehicle.vehicle_id > vehicle.id
 
-Table Sub_District {
-  id Int [pk, increment]
-  amphure_id Int [not null]
-  amphure Amphure
-  zip_code String [not null]
-  name_th String [not null]
-  name_en String [not null]
-  property_post Property_Post [not null]
-}
+Ref: driver_vehicle.driver_id > drivers.id
 
-Table Title_Deed {
-  title_deed_id Int [pk, increment]
-  unit_id Int [not null]
-  unit Unit
-  land_type_id Int [not null]
-  land_type Land_Type
-  title_deed_no String [not null]
-  issue_date DateTime [not null]
-  land_officer String
-  map_street String
-  parcel_no String
-  sub_district_no String
-  sub_district_name String
-  volume String
-  package String
-  unit_no String
-  floor_no String
-  condo_no String
-  condo_title String
-  condo_regist_no String
-  owner_name_1 String
-  owner_name_2 String
-  owner_name_3 String
-  property_post Property_Post [not null]
-}
+Ref: can_signal.vehicle_id > vehicle.id
 
-Ref: User.package_id > Package.id
+Ref: vehicle_event.vehicle_id > vehicle.id
 
-Ref: User.status_id > Status.id
+Ref: vehicle_event.event_id > event.id
 
-Ref: Package.unit_id > Unit.id
+Ref: unsafe_event.vehicle_id > vehicle.id
 
-Ref: Notification.property_id > Property_Post.id
+Ref: unsafe_event.event_id > event.id
 
-Ref: Notification.user_id > User.id
+Ref: unsafe_event.driver_id > drivers.id
 
-Ref: Favourite.user_id > User.id
+Ref: unsafe_event.telemetry_id > vehicle_telemetry.id
 
-Ref: Favourite.property_id > Property_Post.id
-
-Ref: Property_Post.user_id > User.id
-
-Ref: Property_Post.title_deed_id > Title_Deed.title_deed_id
-
-Ref: Property_Post.status_id > Status.id
-
-Ref: Property_Post.unit_id > Unit.id
-
-Ref: Property_Post.geographies_id > Geographies.id
-
-Ref: Property_Post.province_id > Province.id
-
-Ref: Property_Post.amphure_id > Amphure.id
-
-Ref: Property_Post.sub_district_id > Sub_District.id
-
-Ref: Property_Post.property_type_id > Property_Type.property_type_id
-
-Ref: Appointment.user_id > User.id
-
-Ref: Province.geographies_id > Geographies.id
-
-Ref: Amphure.province_id > Province.id
-
-Ref: Sub_District.amphure_id > Amphure.id
-
-Ref: Title_Deed.unit_id > Unit.id
-
-Ref: Title_Deed.land_type_id > Land_Type.id
+Ref: driver_score.vehicle_id > vehicle.id

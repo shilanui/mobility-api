@@ -1,0 +1,72 @@
+[
+  {
+    "vehicle_id": "V001",
+    "signal_name": "Vehicle Fuel Rate",
+    "signal_value": 0.22,
+    "signal_unit": "L/hr",
+    "timestamp": "2025-04-02T00:57:30+07:00"
+  },
+  {
+    "vehicle_id": "V002",
+    "signal_name": "Engine Speed",
+    "signal_value": 1200,
+    "signal_unit": "RPM",
+    "timestamp": "2025-04-02T00:57:31+07:00"
+  },
+  {
+    "vehicle_id": "V003",
+    "signal_name": "Accel Position",
+    "signal_value": 35,
+    "signal_unit": "%",
+    "timestamp": "2025-04-02T00:57:32+07:00"
+  },
+  {
+    "vehicle_id": "V004",
+    "signal_name": "Vehicle Fuel Rate",
+    "signal_value": 0.5,
+    "signal_unit": "L/hr",
+    "timestamp": "2025-04-02T00:57:33+07:00"
+  },
+  {
+    "vehicle_id": "V003",
+    "signal_name": "Stop Light Switch",
+    "signal_value": 1,
+    "signal_unit": null,
+    "timestamp": "2025-04-02T00:57:34+07:00"
+  },
+  {
+    "vehicle_id": "V001",
+    "signal_name": "Engine Speed",
+    "signal_value": 2500,
+    "signal_unit": "RPM",
+    "timestamp": "2025-04-02T00:57:35+07:00"
+  },
+  {
+    "vehicle_id": "V002",
+    "signal_name": "Accel Position",
+    "signal_value": 70,
+    "signal_unit": "%",
+    "timestamp": "2025-04-02T00:57:36+07:00"
+  },
+  {
+    "vehicle_id": "V003",
+    "signal_name": "Vehicle Fuel Rate",
+    "signal_value": 0.8,
+    "signal_unit": "L/hr",
+    "timestamp": "2025-04-02T00:57:37+07:00"
+  },
+  {
+    "vehicle_id": "V004",
+    "signal_name": "Stop Light Switch",
+    "signal_value": 0,
+    "signal_unit": null,
+    "timestamp": "2025-04-02T00:57:38+07:00"
+  },
+  {
+    "vehicle_id": "V003",
+    "signal_name": "Vehicle Fuel Rate",
+    "signal_value": 0.3,
+    "signal_unit": "L/hr",
+    "timestamp": "2025-04-02T00:57:39+07:00"
+  }
+]

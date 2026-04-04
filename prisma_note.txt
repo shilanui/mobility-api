@@ -1,21 +1,9 @@
- pnpm add morgan node prisma --save
------
-1.สร้าง file schema.prisma เพื่อลงข้อมูล schema สำหรับสร้าง database
-2.ใส่ข้อมูล table field ต่างๆลงไปใน schema.prisma
------
-3. ลงตัวนี้เพื่อ generate DBML code
- pnpm add -D prisma-dbml-generator
- sudo npx prisma generate
-----
-4.npx prisma migrate dev --name <ตามด้วยชื่อdatabase>
-สำหรับสร้างก้อน database ไปยัง mySQL
-----
-
-5. Update database schema
-- npx prisma migrate dev
-
-
+ลงตัวนี้เพื่อ generate DBML code
+ npm add -D prisma-dbml-generator
 
 เวลา Update schema ใหม่
 - npx prisma generate
 - npx prisma migrate dev
+
+run seed
+- npx prisma db seed

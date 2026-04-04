@@ -1,283 +1,175 @@
 generator client {
-    provider = "prisma-client-js"
-    binaryTargets = ["native", "debian-openssl-1.1.x"]
-    output = "../node_modules/.prisma/client"
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x"]
+  output = "../node_modules/.prisma/client"
 }
 
 generator dbml {
-    provider = "prisma-dbml-generator"
+  provider = "prisma-dbml-generator"
 }
-
-// datasource db {
-    // provider = "sqlserver"
-    // url      = env("DATABASE_URL")
-// }
 
 datasource db {
-  provider  = "postgresql"
-  url  	    = env("PG_DATABASE_URL")
-  // uncomment next line if you use Prisma <5.10
-  // directUrl = env("DATABASE_URL_UNPOOLED")
+  provider = "postgresql"
+  url      = env("PG_DATABASE_URL")
 }
 
-model User {
+enum Severity {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+
+model vehicle {
+  id            Int      @id @default(autoincrement())
+  vehicle_name     String      @unique
+  createdAt     DateTime @default(now())
+
+  telemetry             vehicle_telemetry[]
+  can_signals           can_signal[]
+  events                vehicle_event[]
+  scores                driver_score[]
+  unsafe_events         unsafe_event[]
+  driver_vehicle        driver_vehicle[]
+}
+
+
+model vehicle_telemetry {
     id              Int      @id @default(autoincrement())
+    vehicle_id      Int
+    source          String?
+    timestamp       DateTime
 
-    package_id      Int?      
-    package         Package?   @relation(fields: [package_id], references: [id])
+    lat             Float?
+    long            Float?
+    speed_kmh       Float?
+    heading_deg     Float?
+    engine_on       Boolean?
+    odometer_km     Float?
+    driver_id       Int
 
-    status_id       Int?      
-    status          Status?    @relation(fields: [status_id], references: [id])
+    vehicle vehicle @relation(fields: [vehicle_id], references: [id])
+    driver drivers @relation(fields: [driver_id], references: [id])
 
-    tax_id_no       String
-    username        String
-    password        String
-    first_name      String
-    last_name       String
-    birth_date      DateTime?    
-    phone_number    String? 
-    email           String      @unique
-    agency_name     String?
-    agency_address  String?
-    agency_tax_id_no    String?
-    agency_phone_num    String?
-    created_at      DateTime?    @default(now())
-    updated_at      DateTime? 
+    unsafe_event       unsafe_event[]
 
-    notification    Notification[]  
-    appointment     Appointment[]  
-    favourite       Favourite[]  
-    property_post   Property_Post[]  
+    @@index([vehicle_id, timestamp])
+    @@index([timestamp])
 }
 
-model Role {
-    id              Int      @id @default(autoincrement())
-    role_name       String   @unique
-    description     String?
-}
+model drivers {
+  id            Int      @id @default(autoincrement())
+  driver_name   String   @unique
+  createdAt     DateTime @default(now())
 
-model Package {
-    id              Int      @id @default(autoincrement())
 
-    unit_id         Int?
-    unit            Unit?    @relation(fields: [unit_id], references: [id])
-
-    package_name    String
-    description     String?
-    price           Int?
-    start_time      DateTime?
-    end_time        DateTime?
-    created_at      DateTime    @default(now())
-    updated_at      DateTime?
-
-    user            User[] 
-}
-
-model Status {
-    id              Int      @id @default(autoincrement())
-    status_name     String   @unique
-    status_type     String?
-    description     String?
-    
-
-    user            User[]  
-    property_post   Property_Post[]  
-}
-
-model Notification {
-    id              Int      @id @default(autoincrement())
-
-    property_id     Int 
-    property_post   Property_Post?    @relation(fields: [property_id], references: [id])
-
-    user_id         Int?      
-    user            User?    @relation(fields: [user_id], references: [id]) 
-    message         String
-    is_read         Boolean
-    created_at      DateTime         @default(now())
-    updated_at      DateTime  
-}
-
-model Favourite {
-    id              Int                 @id @default(autoincrement())
-    user_id         Int      
-    user            User?               @relation(fields: [user_id], references: [id]) 
-
-    property_id     Int 
-    property_post   Property_Post?      @relation(fields: [property_id], references: [id])
-
-    is_favourite    Boolean
-    created_at      DateTime            @default(now())
-    updated_at      DateTime
+  vehicle_telemetry     vehicle_telemetry[]
+  driver_vehicle        driver_vehicle[]
+  unsafe_event          unsafe_event[]
 
 }
 
-model Property_Type {
-    property_type_id        Int      @id @default(autoincrement())
-    property_type           String
+model driver_vehicle {
+  id                Int @id @default(autoincrement())
+  vehicle_id        Int
+  driver_id         Int
 
-    property_post           Property_Post[]
+  start_at          DateTime?
+  end_at            DateTime?
+
+  vehicle vehicle @relation(fields: [vehicle_id], references: [id])
+  driver drivers @relation(fields: [driver_id], references: [id])
+
+  @@index([vehicle_id])
+  @@index([driver_id])
+  @@unique([vehicle_id, driver_id])
 }
 
-model Land_Type {
-    id                      Int      @id @default(autoincrement())
-    land_type               String
-    description             String?
+model can_signal {
+    id          Int      @id @default(autoincrement())
+    vehicle_id    Int
+    timestamp    DateTime
+    signal_name   String
+    signal_value  Float
+    signal_unit   String?
 
-    title_deed              Title_Deed[]
-}
+    vehicle vehicle @relation(fields: [vehicle_id], references: [id])
 
-model Property_Post {
-    id                      Int      @id @default(autoincrement())
-    user_id                 Int?
-    user                    User?    @relation(fields: [user_id], references: [id])
-
-    title_deed_id           Int?
-    title_deed              Title_Deed?    @relation(fields: [title_deed_id], references: [title_deed_id])
-
-    status_id               Int?
-    status                  Status?    @relation(fields: [status_id], references: [id])
-
-    unit_id                 Int?
-    unit                    Unit?    @relation(fields: [unit_id], references: [id])
-
-    geographies_id          Int?
-    geographies             Geographies?    @relation(fields: [geographies_id], references: [id])
-
-    province_id             Int?
-    province                Province?    @relation(fields: [province_id], references: [id])
-
-    amphure_id              Int?
-    amphure                 Amphure?    @relation(fields: [amphure_id], references: [id])
-
-    sub_district_id         Int?
-    sub_district            Sub_District?    @relation(fields: [sub_district_id], references: [id])
-
-    property_type_id        Int?
-    property_type           Property_Type?    @relation(fields: [property_type_id], references: [property_type_id])
-
-    property_name           String?
-    description             String?
-    image                   String?
-    price                   Int?
-    latitude                Float?
-    longitude               Float?
-    land_area_rai           Decimal? @db.Decimal(10,2)
-    land_area_ngan          Decimal? @db.Decimal(10,2)
-    land_area_square_wa     Decimal? @db.Decimal(10,2)
-    usable_size_square_m    Decimal? @db.Decimal(10,2)
-    bedroom_count           Int?
-    bathroom_count          Int?
-    kitchen_count           Int?
-    floors_count            Int?
-    view_count              Int?
-    created_at              DateTime    @default(now())     
-    updated_at              DateTime
-
-    favourite               Favourite[]
-    notification            Notification[]
-    
-}
-
-model Unit {
-    id                  Int         @id @default(autoincrement())
-    unit_name           String
-    unit_type           String
-    conversion_factor   Decimal     @db.Decimal(10,2)
-    created_at          DateTime    @default(now())     
-    updated_at          DateTime
-
-    property_post       Property_Post[]
-    title_deed          Title_Deed[]
-    package             Package[]
-}
-
-model Appointment {
-    id                  Int      @id @default(autoincrement())
-    user_id             Int      
-    user                User?    @relation(fields: [user_id], references: [id]) 
-
-    app_status          String
-    start_time          DateTime
-    end_time            DateTime
-    location            String
-    created_at          DateTime    @default(now())     
-    updated_at          DateTime
-}
-
-model Geographies {
-    id                  Int      @id @default(autoincrement())
-    geo_name            String
-
-    province            Province[]
-    property_post       Property_Post[]
-}
-
-model Province {
-    id                  Int      @id @default(autoincrement())
-    geographies_id      Int      
-    geographies         Geographies?    @relation(fields: [geographies_id], references: [id])
-    code                String
-    name_th             String
-    name_en             String 
-
-    amphure             Amphure[]
-    property_post       Property_Post[]
-}
-
-model Amphure {
-    id                  Int      @id @default(autoincrement())
-    province_id         Int      
-    province            Province?    @relation(fields: [province_id], references: [id])
-    code                String
-    name_th             String
-    name_en             String 
-
-    sub_district        Sub_District[]
-    property_post       Property_Post[]
-}
-
-model Sub_District {
-    id                  Int      @id @default(autoincrement())
-    amphure_id          Int      
-    amphure             Amphure?    @relation(fields: [amphure_id], references: [id])
-    zip_code            String
-    name_th             String
-    name_en             String 
-
-    property_post       Property_Post[]
-}
-
-model Title_Deed {
-    title_deed_id                   Int      @id @default(autoincrement())
-
-    unit_id                         Int      
-    unit                            Unit?    @relation(fields: [unit_id], references: [id])
-
-    land_type_id                    Int      
-    land_type                       Land_Type?    @relation(fields: [land_type_id], references: [id])
-
-    title_deed_no                   String
-    issue_date                      DateTime
-    land_officer                    String?
-    map_street                      String?
-    parcel_no                       String?
-    sub_district_no                 String?
-    sub_district_name               String?
-    volume                          String?
-    package                         String?
-    unit_no                         String?
-    floor_no                        String?
-    condo_no                        String?
-    condo_title                     String?
-    condo_regist_no                 String?
-    owner_name_1                    String?
-    owner_name_2                    String?
-    owner_name_3                    String?
-
-    property_post                   Property_Post[]
+    @@index([vehicle_id, timestamp, signal_name])
+    @@index([vehicle_id, signal_name, timestamp])
+    @@index([timestamp])
 }
 
 
+model vehicle_event {
+    id          Int      @id @default(autoincrement())
+    vehicle_id         Int
+    event_id         Int
+    timestamp         DateTime
 
+    lat               Float?
+    long               Float?
+    speed_kmh          Float?
+    fuel_input_liters   Float?
+    total_distance_km   Float?
+    battery_voltage    Float?
+
+    vehicle vehicle @relation(fields: [vehicle_id], references: [id])
+    event event @relation(fields: [event_id], references: [id])
+
+    @@index([vehicle_id, timestamp])
+    @@index([event_id])
+}
+
+
+model unsafe_event {
+    id         Int      @id @default(autoincrement())
+    vehicle_id  Int
+    driver_id   Int?
+    event_id    Int
+    severity    Severity        // low, medium, high
+    timestamp   DateTime
+    value       Float?        // speed / acceleration
+    threshold   Float?    // ค่า limit
+    telemetry_id Int?
+
+    vehicle vehicle @relation(fields: [vehicle_id], references: [id])
+    event event @relation(fields: [event_id], references: [id])
+    driver drivers? @relation(fields: [driver_id], references: [id])
+    vehicle_telemetry vehicle_telemetry? @relation(fields: [telemetry_id], references: [id])
+
+    @@index([vehicle_id, timestamp])
+    @@index([event_id])
+}
+
+model event {
+    id         Int      @id @default(autoincrement())
+    event_type  Int   // speeding, harsh_braking, harsh_acceleration
+    event_name  String
+
+    unsafe_event       unsafe_event[]
+    vehicle_event       vehicle_event[]
+
+    @@index([event_type])
+}
+
+model driver_score {
+    id         Int      @id @default(autoincrement())
+    vehicle_id       Int
+    score_date       DateTime
+
+    final_score      Float
+    speeding_score   Float
+    braking_score    Float
+    accel_score      Float
+    idle_score       Float
+    night_score      Float
+
+    riskClass       String
+
+    vehicle vehicle @relation(fields: [vehicle_id], references: [id])
+
+    @@index([vehicle_id, score_date])
+    @@index([score_date])
+}
 
