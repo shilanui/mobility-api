@@ -57,29 +57,35 @@ tenant_id
 
 Example Tenent approach
 
-```bash
 Tenent
 
+```bash
 id
 name
 plan (free | pro | etc)
 created_at
+```
 
 Users
 
+```bash
 id
 tenant_id
 name
 role
+```
 
 Vehicles
 
+```bash
 id
 tenant_id
 vehicle_name
+```
 
 Event
 
+```bash
 id
 tenant_id
 event_type
