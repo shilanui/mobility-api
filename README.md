@@ -18,7 +18,7 @@ Technology choice
   - Read replicas for separating read and write workloads
   - Redis caching to reduce database load and improve performance
 
-1. API contract
+API contract
 
 Success
 
@@ -46,4 +46,42 @@ Pagination approach
 
 ```bash
 GET vehicle?page=1&limit=20&sort=createdAt&order=desc&vehicle_name=john
+```
+
+Authentication & multi-tenancy design
+Use Prisma middleware to detect first and query tenent_id in service
+
+```bash
+tenant_id
+```
+
+Example Tenent approach
+
+```bash
+Tenent
+
+id
+name
+plan (free | pro | etc)
+created_at
+
+Users
+
+id
+tenant_id
+name
+role
+
+Vehicles
+
+id
+tenant_id
+vehicle_name
+
+Event
+
+id
+tenant_id
+event_type
+event_name
 ```
