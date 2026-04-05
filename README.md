@@ -5,6 +5,7 @@ How to Run (Setup Database & Seed Test Data)
 Framework
 
 - I have selected Node.js + Express for its lightweight architecture, strong ecosystem, and our proficiency with the stack, enabling fast development, scalability, and ease of maintenance in production environments
+- I use Prisma ORM because it provides strong type safety, excellent developer experience, and simplified database migrations. It reduces runtime errors and improves productivity, especially in a TypeScript-based backend with complex data models and multi-tenant architecture
 
 Technology choice
 
