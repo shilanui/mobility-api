@@ -301,9 +301,9 @@ async function clearDatabase() {
 async function main() {
   console.log("Start seed");
 
-  //   await clearDatabase();
+  await clearDatabase();
   await seedVerhicleAndTelemetry();
-  //   await calculateUnsafeEvent();
+  await calculateUnsafeEvent();
 
   console.log("Done seed");
 }

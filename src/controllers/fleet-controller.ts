@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import prisma from "../models/prisma";
+import { isValidId } from "../utils/helper";
 
 export const getAll = async (
   req: Request,
@@ -9,7 +10,7 @@ export const getAll = async (
   try {
     const data = await prisma.vehicle.findMany();
 
-    res.status(201).json({ data });
+    return res.status(200).json({ data });
   } catch (err) {
     next(err);
   }
@@ -21,9 +22,27 @@ export const getScoreByVehicleId = async (
   next: NextFunction,
 ) => {
   try {
-    const data = await prisma.vehicle.findMany();
+    const { vehicle_id } = req.params;
 
-    res.status(201).json({ data });
+    if (!isValidId(vehicle_id)) {
+      return res.status(400).json({ message: "Invalid vehicle_id" });
+    }
+
+    const vehicleId = Number(vehicle_id);
+
+    const vehicle = await prisma.vehicle.findUnique({
+      where: { id: vehicleId },
+    });
+
+    if (!vehicle) {
+      return res.status(404).json({ message: "Vehicle not found" });
+    }
+
+    // TODO: in the future
+    return res.status(200).json({
+      vehicle_id: vehicleId,
+      score: 100,
+    });
   } catch (err) {
     next(err);
   }
@@ -35,9 +54,22 @@ export const getEventByVehicleId = async (
   next: NextFunction,
 ) => {
   try {
-    const { params } = req;
+    const { vehicle_id } = req.params;
 
-    const vehicleId = +params.vehicle_id;
+    if (!isValidId(vehicle_id)) {
+      return res.status(400).json({ message: "Invalid vehicle_id" });
+    }
+
+    const vehicleId = Number(vehicle_id);
+
+    const vehicle = await prisma.vehicle.findUnique({
+      where: { id: vehicleId },
+    });
+
+    if (!vehicle) {
+      return res.status(404).json({ message: "Vehicle not found" });
+    }
+
     const data = await prisma.unsafe_event.findMany({
       where: { vehicle_id: vehicleId },
       include: {
@@ -45,7 +77,11 @@ export const getEventByVehicleId = async (
       },
     });
 
-    res.status(201).json({ data });
+    if (!data.length) {
+      return res.status(404).json({ message: "No events found" });
+    }
+
+    return res.status(200).json({ data });
   } catch (err) {
     next(err);
   }
