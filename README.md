@@ -5,7 +5,7 @@ How to Run (Setup Database & Seed Test Data)
 Framework
 
 - I have selected Node.js + Express for its lightweight architecture, strong ecosystem, and our proficiency with the stack, enabling fast development, scalability, and ease of maintenance in production environments
-- I use Prisma ORM because it provides strong type safety, excellent developer experience, and simplified database migrations. It reduces runtime errors and improves productivity, especially in a TypeScript-based backend with complex data models and multi-tenant architecture
+- I use Prisma ORM because it provides strong type safety, excellent developer experience, and simplified database migrations. It reduces runtime errors and improves productivity, especially in a TypeScript-based backend with complex data models and multi-tenant architecture.
 
 Technology choice
 
@@ -17,3 +17,33 @@ Technology choice
 - To support future scalability, the system may be enhanced with
   - Read replicas for separating read and write workloads
   - Redis caching to reduce database load and improve performance
+
+1. API contract
+
+Success
+
+```bash
+{
+   "success": true, (true/false)
+   "data": {},
+   "message": {}
+}
+```
+
+Error
+
+```bash
+{
+   "success": true, (true/false)
+   "error": {
+      "code": "VALIDATION_ERROR",
+      "message": "Invalid request payload"
+   }
+}
+```
+
+Pagination approach
+
+```bash
+GET vehicle?page=1&limit=20&sort=createdAt&order=desc&vehicle_name=john
+```
